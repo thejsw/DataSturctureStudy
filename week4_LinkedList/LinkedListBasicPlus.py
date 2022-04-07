@@ -1,4 +1,9 @@
-class LinkedListBasic:
+class ListNode:
+	def __init__(self, newItem, nextNode:'ListNode'):
+		self.item = newItem
+		self.next = nextNode
+
+class LinkedListBasicPlus:
     def __init__(self):
         self.__head = ListNode('dummy', None)
         self.__numItems = 0
@@ -8,12 +13,12 @@ class LinkedListBasic:
             prev = self.__getNode(i - 1)
             newNode = ListNode(newItem, prev.next)
             prev.next = newNode
-            self._numItems += 1
+            self.__numItems += 1
         else:
             print("index", i, ": out of bound in insert()")
     
     def append(self, newItem):
-        prev = self.getNode(self.__numItems - 1)
+        prev = self.__getNode(self.__numItems - 1)
         newNode = ListNode(newItem, prev.next)
         prev.next = newNode
         self.__numItems += 1
@@ -36,7 +41,7 @@ class LinkedListBasic:
             self.__numItems -= 1
             return x
         else:
-            return NOne
+            return None
 
     def get(self, i:int):
         if self.isEmpty():
@@ -80,13 +85,13 @@ class LinkedListBasic:
             self.append(a.get(index))
     
     def copy(self):
-        a = LinkedListBasic()
+        a = LinkedListBasicPlus()
         for index in range(self.__numItems):
             a.append(self.get(index))
         return a
     
     def reverse(self):
-        a = LinkedListBasic()
+        a = LinkedListBasicPlus()
         for index in range(self.__numItems):
             a.insert(0, self.get(index))
         self.clear()
@@ -102,7 +107,7 @@ class LinkedListBasic:
         for index in range(len(a)):
             self.append(a[index])
     
-    def __findNode(self, x) -> (ListNode, ListNode):
+    def __findNode(self, x):
         prev = self.__head
         curr = prev.next
         while curr != None:

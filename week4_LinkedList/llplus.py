@@ -5,30 +5,36 @@ class ListNode:
 
 class LinkedListBasicPlus:
     def __init__(self):
-        self.__head = ListNode('dummy', None)
-        self.__numItems = 0
+        self.__head = None   #변수선언 [['dummy'],[]] 경우의 수 분기할 필요 x, 예외처리 x, 맨처음부터 더미노드가 있는 구조체로 구성// ListNode는 [[item],[next]]로 이루어진 구조체
+        self.__numItems = 0   #변수선언 개수세기
     
-    def insert(self, i:int, newItem):
-        if i >= 0 and i <= self.__numItems:
-            prev = self.__getNode(i - 1)
+    def insert(self, i:int, newItem):  
+        if i >= 0 and i <= self.__numItems: 
+            prev = self.__getNode(i - 1)   #prev는 getNode의 번호보다 1작게 선언 > 몇번째 아이템인가?
+            if prev == None:
+                self.__head = ListNode(newItem, None)
+                prev = self.__head  
             newNode = ListNode(newItem, prev.next)
-            prev.next = newNode
-            self.__numItems += 1
+            prev.next = newNode  
+            self.__numItems += 1   #실행할때마다 numItems 숫자 증가
         else:
             print("index", i, ": out of bound in insert()")
     
     def append(self, newItem):
-        prev = self.__getNode(self.__numItems - 1)
+        prev = self.__getNode(self.__numItems - 1)   #맨끝에 있는 아이템을 prev로 선언
+        if prev == None:
+            self.__head = ListNode(newItem, None)
+            prev = self.__head  
         newNode = ListNode(newItem, prev.next)
-        prev.next = newNode
+        prev.next = newNode 
         self.__numItems += 1
     
     def pop(self, i:int):
-        if (i >= 0 and i <= self.__numItems - 1):
-            prev = self.__getNode(i - 1)
-            curr = prev.next
-            prev.next = curr.next
-            retItem = curr.item
+        if (i >= 0 and i <= self.__numItems - 1):   #유효한 범위내에
+            prev = self.__getNode(i - 1)   #i-1번째 노드를 찾고
+            curr = prev.next   #i번째 노드를 curr로 연결  //  [prev] > [curr-삭제대상] > [next]
+            prev.next = curr.next   #prev.next를 curr.next로 연결  //  [prev] > [next] | [curr:연결이 끊긴 상황]
+            retItem = curr.item   #curr.item을 리턴하기 위한 목적
             self.__numItems -= 1
             return retItem
         else:
@@ -37,7 +43,7 @@ class LinkedListBasicPlus:
     def remove(self, x):
         (prev, curr) = self.__findNode(x)
         if curr != None:
-            prev.next = curr.next
+            prev.next = curr.next   #[prev] > [next] | [curr]
             self.__numItems -= 1
             return x
         else:
@@ -52,7 +58,7 @@ class LinkedListBasicPlus:
             return None
 
     def index(self, x) -> int:
-        curr = self.__head.next
+        curr = self.__head.next   #head [[dummy],[]] > head.next(0번째노드) [[][]]
         for index in range(self.__numItems):
             if curr.item == x:
                 return index

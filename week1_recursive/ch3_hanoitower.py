@@ -7,4 +7,4 @@ def hanoi(n, A, B, C):
     print(A, '->', B)
     hanoi(n-1, C, B, A)
 
-print(hanoi(3, 1, 3, 2))
+print(hanoi(3, 'A', 'C', 'B'))

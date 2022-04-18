@@ -1,2 +1,2 @@
-# DataSturctureStudy
-자료구조 스터디 자료
+# DataStructureStudy
+자료구조 스터디

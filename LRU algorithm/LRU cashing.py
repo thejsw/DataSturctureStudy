@@ -1,6 +1,6 @@
-# 양방향 연결 리스트
-## 각 노드가 앞뒤 양방향으로 연결됨
-## 단방향으로 순회할 시에 발생하는 단점 해소
+# cache slot 만큼 데이터가 들어감
+# cache slot이 넘어가면 제일 먼저 들어간 데이터가 나옴
+# 들어온 데이터가 이미 있는 데이터와 같다면, 이미 있는 데이터를 버리고, 새로운 데이터를 맨 위로 연결시킴, 
 
 class BidirectNode:
     def __init__(self, x, prevNode:'BidirectNode', nextNode:'BidirectNode'):
@@ -8,7 +8,7 @@ class BidirectNode:
         self.prev = prevNode
         self.next = nextNode
 
-class DoublyLinkedList:
+class CircularDoublyLinkedList:
     def __init__(self):
         self.__head = BidirectNode("dummy", None, None)
         self.__head.prev = self.__head
@@ -16,8 +16,8 @@ class DoublyLinkedList:
         self.__numItems = 0
     
     def insert(self, i:int, newItem):  
-        if i >= 0 and i <= self.__numItems: 
-            prev = self.__getNode(i - 1)   #prev는 getNode의 번호보다 1작게 선언 > 몇번째 아이템인가?
+        if (i >= 0 and i <= self.__numItems): 
+            prev = self.getNode(i - 1)
             newNode = BidirectNode(newItem, prev, prev.next)
             newNode.next.prev = newNode
             prev.next = newNode
@@ -26,10 +26,10 @@ class DoublyLinkedList:
             print("index", i, ": out of bound in insert()")
     
     def append(self, newItem):
-        prev = self.__getNode(self.__numItems - 1)   #맨끝에 있는 아이템을 prev로 선언
-        newNode = BidirectNode(newItem, prev, prev.next)
-        newNode.next.prev = newNode
+        prev = self.__head.prev
+        newNode = BidirectNode(newItem, prev, self.__head)
         prev.next = newNode
+        self.__head.prev = newNode
         self.__numItems += 1
     
     def pop(self, *args):
@@ -39,42 +39,40 @@ class DoublyLinkedList:
             i = args[0]
         if len(args) == 0 or i == -1:
             i = self.__numItems - 1
-        
         if (i >= 0 and i <= self.__numItems - 1):
-            curr = self.__getNode(i)
-            retitem = curr.item
+            curr = self.getNode(i)
+            retItem = curr.item
             curr.prev.next = curr.next
             curr.next.prev = curr.prev
             self.__numItems -= 1
-            return retitem
+            return retItem
         else:
             return None
     
     def remove(self, x):
         (prev, curr) = self.__findNode(x)
         if curr != None:
-            prev.next = curr.next   #[prev] > [next] | [curr]
+            prev.next = curr.next
             self.__numItems -= 1
             return x
         else:
             return None
 
-    def get(self, i:int):
+    def get(self, i):
         if self.isEmpty():
             return None
         if (i >= 0 and i <= self.__numItems - 1):
-            return self.__getNode(i).item
+            return self.getNode(i).item
         else:
             return None
 
     def index(self, x) -> int:
-        curr = self.__head.next   #head [[dummy],[]] > head.next(0번째노드) [[][]]
-        for index in range(self.__numItems):
-            if curr.item == x:
-                return index
-            else:
-                curr = curr.next
-        return -2
+        cnt = 0
+        for element in self:
+            if element == x:
+                return cnt
+            cnt += 1
+        return -12345
     
     # 기타 작업들
     def isEmpty(self) -> bool:
@@ -84,71 +82,94 @@ class DoublyLinkedList:
         return self.__numItems
     
     def clear(self):
-        self.__head = BidirectNode('dummy', None)
+        self.__head = BidirectNode("dummy", None, None)
+        self.__head.prev = self.__head
+        self.__head.next = self.__head
         self.__numItems = 0
 
     def count(self, x) -> int:
         cnt = 0
-        curr = self.__head.next
-        while curr != None:
-            if curr.item == x:
+        for element in self:
+            if element == x:
                 cnt += 1
-            curr = curr.next
         return cnt
     
     def extend(self, a):
-        for index in range(a.size()):
-            self.append(a.get(index))
+        for element in a:
+            self.append(element)
     
     def copy(self):
-        a = LinkedListBasicPlus()
-        for index in range(self.__numItems):
-            a.append(self.get(index))
+        a = CircularDoublyLinkedList()
+        for element in self:
+            a.append(element)
         return a
     
-    def reverse(self) -> None:
+    def reverse(self):
         prev = self.__head
         curr = prev.next
         next = curr.next
         self.__head.next = prev.prev
         self.__head.prev = curr
-
         for i in range(self.__numItems):
             curr.next = prev
             curr.prev = next
-            prev = curr;
-            curr = next;
+            prev = curr
+            curr = next
             next = next.next
-
+        
     def sort(self) -> None:
         a = []
-        for index in range(self.__numItems):
-            a.append(self.get(index))
+        for element in self:
+            a.append(element)
         a.sort()
         self.clear()
-        for index in range(len(a)):
-            self.append(a[index])
+        for element in a:
+            self.append(element)
     
     def __findNode(self, x):
-        prev = self.__head
-        curr = prev.next
-        while curr != None:
+        curr = self.__head.next
+        while curr != self.__head:
             if curr.item == x:
-                return (prev, curr)
+                return curr
             else:
-                prev = curr; curr = curr.next
-        return (None, None)
+                curr = curr.next
+        return None
 
-    def __getNode(self, i:int) -> ListNode:
+    def getNode(self, i:int):
         curr = self.__head
         for index in range(i+1):
             curr = curr.next
         return curr
     
     def printList(self):
-
-        curr = self.__head.next
-        while curr != None:
-            print(curr.item, end = ' ')
-            curr = curr.next
+        for element in self:
+            print(element, end = ' ')
         print()
+
+    def __iter__(self):
+        return CircularDoublyLinkedListIterator(self)
+
+class CircularDoublyLinkedListIterator:
+    def __init__(self, alist):
+        self.__head = alist.getNode(-1)
+        self.iterPosition = self.__head.next
+    def __next__(self):
+        if self.iterPosition == self.__head:
+            raise StopIteration
+        else:
+            item = self.iterPosition.item
+            self.iterPosition = self.iterPosition.next
+            return item
+
+
+# 실행결과
+list = CircularDoublyLinkedList()
+list.append(30)
+list.insert(0, 20)
+a = [4, 3, 3, 2, 1]
+list.extend(a)
+list.reverse()
+list.pop(0)
+print("count(3):", list.count(3))
+print("get(2):", list.get(2))
+list.printList()

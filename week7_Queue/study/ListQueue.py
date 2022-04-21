@@ -28,9 +28,9 @@ class ListQueue:
 
 
 # 실행결과
-q1 = ListQueue()
-q1.enqueue("Mon")
-q1.enqueue("Tue")
-q1.enqueue("Wed")
-q1.dequeue()
-q1.printQueue()
+# q1 = ListQueue()
+# q1.enqueue("Mon")
+# q1.enqueue("Tue")
+# q1.enqueue("Wed")
+# q1.dequeue()
+# q1.printQueue()

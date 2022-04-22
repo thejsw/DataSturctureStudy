@@ -10,10 +10,10 @@ class LinkedListBasic:
     
     def insert(self, i:int, newItem):   #i의 자료형을 int로 선언
         if i >= 0 and i <= self.__numItems: #범위조절 (numItems는 원소의 개수, 원소의 개수를 넘어가지 않게끔)
-            prev = self.__getNode(i - 1)   #prev는 getNode의 번호보다 1작게 선언 > 몇번째 아이템인가?
+            prev = self.__getNode(i - 1)    #prev는 getNode의 번호보다 1작게 선언 > 몇번째 아이템인가?
             newNode = ListNode(newItem, prev.next)   #[1] [new] > [2]  // newItem을 prev.next로 주소를 넘겨서 연결시킴
-            prev.next = newNode   #[1] > [new] > [2]  // 원래노드를 새로운 노드에 연결시킴 : prev.next의 값을 새로운 노드로 변경
-            self.__numItems += 1   #실행할때마다 numItems 숫자 증가
+            prev.next = newNode    # [1] > [new] > [2]  // 원래노드를 새로운 노드에 연결시킴 : prev.next의 값을 새로운 노드로 변경
+            self.__numItems += 1   # 실행할때마다 numItems 숫자 증가
         else:
             print("index", i, ": out of bound in insert()")
     
@@ -24,7 +24,7 @@ class LinkedListBasic:
         self.__numItems += 1
     
     def pop(self, i:int):
-        if (i >= 0 and i <= self.__numItems - 1):   #유효한 범위내에
+        if (i >= 0 and i <= self.__numItems - 1):   # 유효한 범위내에
             prev = self.__getNode(i - 1)   #i-1번째 노드를 찾고
             curr = prev.next   #i번째 노드를 curr로 연결  //  [prev] > [curr-삭제대상] > [next]
             prev.next = curr.next   #prev.next를 curr.next로 연결  //  [prev] > [next] | [curr:연결이 끊긴 상황]

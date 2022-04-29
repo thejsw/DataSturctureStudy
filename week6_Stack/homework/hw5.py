@@ -66,4 +66,3 @@ class ListStack:
 
 st1 = ListStack()
 st1.parenBalance('(parenBalance)')
-st1.printStack()

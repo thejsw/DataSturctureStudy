@@ -45,7 +45,7 @@ class LinkedListBasic:
 
     def get(self, i:int):
         if self.isEmpty():
-            return None
+                                                                                                                                                                     return None
         if (i >= 0 and i <= self.__numItems - 1):
             return self.__getNode(i).item
         else:

@@ -5,6 +5,7 @@
 # 오른쪽 - len에서 시작, -1씩, 0까지
 # 계속 맞는지 확인, 아닐경우 바로 중단하고 False 리턴
 
+from inspect import stack
 from StackLinkedList import *
 
 class sentenceChecker:
@@ -16,10 +17,11 @@ class sentenceChecker:
 
         for i in range(idx):
             self.__stack.push(s[i])
-        
+
         for i in range(idx+1, len(s)):
             prev = self.__stack.pop()
             curr = s[i]
+            print(prev, curr)
 
             if prev != curr:
                 return False

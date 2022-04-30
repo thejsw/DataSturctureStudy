@@ -18,7 +18,7 @@ class LinkedStack:
 
     def isEmpty(self) -> bool:
         return self.__list.isEmpty()
-    
+
     def popAll(self):
         self.__list.clear()
 

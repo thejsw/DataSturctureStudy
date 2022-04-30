@@ -8,7 +8,7 @@ class LinkedQueue:
         self.__queue.append(item)
     
     def dequeue(self):
-        self.__queue.pop(0)
+        return self.__queue.pop(0)
 
     def front(self):
         return self.__queue.get(0)

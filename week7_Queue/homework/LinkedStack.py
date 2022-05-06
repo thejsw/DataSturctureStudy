@@ -8,7 +8,7 @@ class LinkedStack:
         self.__list.insert(0, newItem)
     
     def pop(self):
-        return self.__list.pop(0)
+        return self.__list.pop(-1)
     
     def top(self):
         if self.isEmpty():

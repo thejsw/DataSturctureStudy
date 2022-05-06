@@ -12,7 +12,7 @@
 #### 최소 힙 > 모든 노드가 값을 갖고, 자식 노드 값보다 작거나 같다
 
 
- class Heap:
+class heap:
     def __init__(self, *args):
         if len(args) != 0:
             self.__A = args[0]
@@ -25,8 +25,9 @@
     
     def __percolateUp(self, i:int):
         parent = (i - 1) // 2
-        if i > 0 and self.__A[i] > self.__A[parent]
-        self.__percolateUp(parent)
+        if i > 0 and self.__A[i] > self.__A[parent]:
+            self.__A[i], self.__A[parent] = self.__A[parent], self.__A[i]
+            self.__percolateUp(parent)
     
     def deleteMax(self):
         if (not self.isEmpty()):
@@ -62,3 +63,53 @@
     
     def size(self) -> int:
         return len(self.__A)
+
+    def heapPrint(self):
+        print('===================')
+        i = 0
+        j = 1
+
+        while (1):
+            try:
+                for k in range(i, j):
+                    print(self.__A[k], end= " ")
+                print()
+                print()
+        
+                i = 2 * i+1
+                j = 2 * i+1
+            except:
+                print()
+                return
+        # a = 2
+        # ans = 1
+        # for _ in range(len(self.__A)):
+        #     ans *= a
+
+        # for i in range(1, len(self.__A)):
+        #     if (i==1):
+        #         print(self.__A[i])
+        #     else:
+        #         for j in range(i):
+        #             j *= 2
+        #             print(self.__A[j])
+
+        # def power(n):
+        #     a = 2
+        #     ans = 1
+        #     return ans
+
+        # for i in range(len(self.__A)):
+        #     for j in range(i):
+        #         print(self.__A[i], end = ' ')
+        #     i += 1
+        # print()
+
+
+    # def heapPrint(self):
+    #     n = len(self.__A)
+        
+    #     for i in range(0, n, -1):
+    #         print(self.__A[i])
+    #         self.__A[i], self.__A[i+1] = self.__A[i+1], self.__A[i]
+    #         heap(self.__A, 1, i-1)

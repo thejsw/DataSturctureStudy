@@ -8,7 +8,7 @@ A = [3, 4, 2, 1, 5]
 def BubbleSort(A):
     for numElements in (len(A), 0, -1):
         for i in range(numElements-1):
-            if A[i] > A[i+1]:
+            if A[i] > A[i+1]: # 더 클 경우 이웃한 두 수의 자리를 바꾸는 방식
                 A[i], A[i+1] = A[i+1], A[i]
     return A
 
